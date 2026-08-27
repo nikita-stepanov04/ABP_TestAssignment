@@ -21,8 +21,8 @@ namespace ABP_TestAssignment.Application.Cryptography
 
     public static class JwtClaimType
     {
-        public const string Login = "login";
+        public const string Email = "email";
         public const string TokenID = "tokenId";
-        public const string UserID = "userId";
+        public const string CompanyID = "companyId";
     }
 }

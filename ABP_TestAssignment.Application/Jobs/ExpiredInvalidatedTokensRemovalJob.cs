@@ -1,4 +1,4 @@
-﻿using ABP_TestAssignment.Application.BusinessServicesInterfaces;
+﻿using ABP_TestAssignment.Application.IBusinessServices;
 using Microsoft.Extensions.Logging;
 using Quartz;
 
@@ -16,7 +16,6 @@ namespace ABP_TestAssignment.Application.Jobs
             _tokenBS = tokenBs;
             _logger = loggerFactory.CreateLogger<ExpiredInvalidatedTokensRemovalJob>();
         }
-
 
         public async Task Execute(IJobExecutionContext context)
         {

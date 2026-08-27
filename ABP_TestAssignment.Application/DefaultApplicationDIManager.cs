@@ -1,4 +1,6 @@
-﻿using ABP_TestAssignment.Application.Jobs;
+﻿using ABP_TestAssignment.Application.BusinessServices;
+using ABP_TestAssignment.Application.IBusinessServices;
+using ABP_TestAssignment.Application.Jobs;
 using ABP_TestAssignment.Domain.DI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +13,9 @@ namespace ABP_TestAssignment.Application
         {
             services.AddAutoMapper(cfg => { }, typeof(DefaultApplicationDIManager).Assembly);
             services.SetUpJobs();
+
+            services.AddScoped<ICompanyBS, CompanyBS>();
+            services.AddScoped<ITokenBS, TokenBS>();
 
             services.AddOptions<JwtSettings>()
                 .BindConfiguration("Jwt")

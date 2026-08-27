@@ -21,7 +21,7 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories
             await DbContext.Set<TEntity>().AddAsync(entity);
         }
 
-        public async Task<TEntity?> GetByIDAsync(Guid id)
+        public async Task<TEntity?> GetByIDAsync(long id)
         {
             return await DbContext.Set<TEntity>().FindAsync(id);
         }

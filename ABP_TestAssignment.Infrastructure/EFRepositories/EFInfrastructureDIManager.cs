@@ -1,4 +1,8 @@
 ﻿using ABP_TestAssignment.Domain.DI;
+using ABP_TestAssignment.Infrastructure.EFRepositories.Companies;
+using ABP_TestAssignment.Infrastructure.EFRepository;
+using ABP_TestAssignment.Infrastructure.IRepositories.Companies;
+using ABP_TestAssignment.Infrastructure.IRepositories.Tokens;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +27,9 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories
                     opts.EnableSensitiveDataLogging();
                 #endif
             });
+
+            services.AddScoped<ICompanyRepository, EFCompanyRepository>();
+            services.AddScoped<IInvalidatedTokenRepository, EFInvalidatedTokenRepository>();
 
             return services;
         }
