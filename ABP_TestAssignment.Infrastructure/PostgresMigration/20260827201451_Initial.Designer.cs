@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ABP_TestAssignment.Infrastructure.PostgresMigration
 {
     [DbContext(typeof(EFDataContext))]
-    [Migration("20260827190120_Initial")]
+    [Migration("20260827201451_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -21,9 +21,6 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "10.0.11")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -64,6 +61,32 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
                         .IsUnique();
 
                     b.ToTable("Company");
+                });
+
+            modelBuilder.Entity("ABP_TestAssignment.Domain.Entities.Rooms.Room", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("ID"));
+
+                    b.Property<decimal>("BasePricePerHour")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Room");
                 });
 
             modelBuilder.Entity("ABP_TestAssignment.Domain.Entities.Services.Service", b =>
@@ -109,6 +132,36 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
                     b.HasIndex("TokenID");
 
                     b.ToTable("InvalidatedToken");
+                });
+
+            modelBuilder.Entity("RoomService", b =>
+                {
+                    b.Property<long>("AvailableServicesID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("RoomsID")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("AvailableServicesID", "RoomsID");
+
+                    b.HasIndex("RoomsID");
+
+                    b.ToTable("RoomService");
+                });
+
+            modelBuilder.Entity("RoomService", b =>
+                {
+                    b.HasOne("ABP_TestAssignment.Domain.Entities.Services.Service", null)
+                        .WithMany()
+                        .HasForeignKey("AvailableServicesID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ABP_TestAssignment.Domain.Entities.Rooms.Room", null)
+                        .WithMany()
+                        .HasForeignKey("RoomsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

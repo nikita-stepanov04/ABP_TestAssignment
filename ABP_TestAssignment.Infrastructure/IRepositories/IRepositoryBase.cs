@@ -6,6 +6,8 @@ namespace ABP_TestAssignment.Infrastructure.IRepositories
     {
         Task<TEntity?> GetByIDAsync(long id);
         Task AddAsync(TEntity entity);
+        void Delete(TEntity entity);
+        void Update(TEntity entity);
         Task SaveChangesAsync();
     }
 }

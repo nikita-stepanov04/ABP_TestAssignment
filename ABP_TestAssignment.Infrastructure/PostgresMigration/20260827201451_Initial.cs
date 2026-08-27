@@ -45,6 +45,21 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
                 });
 
             migrationBuilder.CreateTable(
+                name: "Room",
+                columns: table => new
+                {
+                    ID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Capacity = table.Column<int>(type: "integer", nullable: false),
+                    BasePricePerHour = table.Column<decimal>(type: "numeric", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Room", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Service",
                 columns: table => new
                 {
@@ -58,6 +73,30 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
                     table.PrimaryKey("PK_Service", x => x.ID);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "RoomService",
+                columns: table => new
+                {
+                    AvailableServicesID = table.Column<long>(type: "bigint", nullable: false),
+                    RoomsID = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoomService", x => new { x.AvailableServicesID, x.RoomsID });
+                    table.ForeignKey(
+                        name: "FK_RoomService_Room_RoomsID",
+                        column: x => x.RoomsID,
+                        principalTable: "Room",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RoomService_Service_AvailableServicesID",
+                        column: x => x.AvailableServicesID,
+                        principalTable: "Service",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Company_Email",
                 table: "Company",
@@ -68,6 +107,17 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
                 name: "IX_InvalidatedToken_TokenID",
                 table: "InvalidatedToken",
                 column: "TokenID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Room_Name",
+                table: "Room",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoomService_RoomsID",
+                table: "RoomService",
+                column: "RoomsID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Service_Name",
@@ -84,6 +134,12 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
 
             migrationBuilder.DropTable(
                 name: "InvalidatedToken");
+
+            migrationBuilder.DropTable(
+                name: "RoomService");
+
+            migrationBuilder.DropTable(
+                name: "Room");
 
             migrationBuilder.DropTable(
                 name: "Service");

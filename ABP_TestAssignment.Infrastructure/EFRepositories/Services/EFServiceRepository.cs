@@ -16,7 +16,7 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories.Services
 
         public Task<bool> ServiceExistsAsync(string name)
         {
-            return DbSet.AnyAsync(s => s.Name == name);
+            return DbSet.AnyAsync(s => EF.Functions.ILike(s.Name, name));
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using ABP_TestAssignment.Domain.DI;
 using ABP_TestAssignment.Infrastructure.EFRepositories.Companies;
+using ABP_TestAssignment.Infrastructure.EFRepositories.Rooms;
 using ABP_TestAssignment.Infrastructure.EFRepositories.Services;
 using ABP_TestAssignment.Infrastructure.EFRepository;
 using ABP_TestAssignment.Infrastructure.IRepositories.Companies;
+using ABP_TestAssignment.Infrastructure.IRepositories.Rooms;
 using ABP_TestAssignment.Infrastructure.IRepositories.Services;
 using ABP_TestAssignment.Infrastructure.IRepositories.Tokens;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +23,6 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories
 
             services.AddDbContext<EFDataContext>(opts =>
             {
-                opts.UseLazyLoadingProxies();
                 opts.UseNpgsql(dbConnection, dbOpts =>
                     dbOpts.MigrationsAssembly("ABP_TestAssignment.Infrastructure"));
 
@@ -32,6 +33,7 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories
 
             services.AddScoped<ICompanyRepository, EFCompanyRepository>();
             services.AddScoped<IServiceRepository, EFServiceRepository>();
+            services.AddScoped<IRoomRepository, EFRoomRepository>();
             services.AddScoped<IInvalidatedTokenRepository, EFInvalidatedTokenRepository>();
 
             return services;

@@ -16,6 +16,7 @@ namespace ABP_TestAssignment.Application
 
             services.AddScoped<ICompanyBS, CompanyBS>();
             services.AddScoped<IServiceBS, ServiceBS>();
+            services.AddScoped<IRoomBS, RoomBS>();
             services.AddScoped<ITokenBS, TokenBS>();
 
             services.AddOptions<JwtSettings>()

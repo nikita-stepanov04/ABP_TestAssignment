@@ -16,19 +16,29 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories
             DbContext = context;
         }
 
-        public async Task AddAsync(TEntity entity)
+        public virtual async Task AddAsync(TEntity entity)
         {
             await DbContext.Set<TEntity>().AddAsync(entity);
         }
 
-        public async Task<TEntity?> GetByIDAsync(long id)
+        public virtual async Task<TEntity?> GetByIDAsync(long id)
         {
             return await DbContext.Set<TEntity>().FindAsync(id);
         }
 
-        public async Task SaveChangesAsync()
+        public virtual async Task SaveChangesAsync()
         {
             await DbContext.SaveChangesAsync();
+        }
+
+        public virtual void Delete(TEntity entity)
+        {
+            DbSet.Remove(entity);
+        }
+
+        public virtual void Update(TEntity entity)
+        {
+            DbSet.Update(entity);
         }
     }
 }
