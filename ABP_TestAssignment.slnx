@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ABP_TestAssignment.Application/ABP_TestAssignment.Application.csproj" Id="71778223-e60c-42a6-92b1-6a4cc6472441" />
+  <Project Path="ABP_TestAssignment.Domain/ABP_TestAssignment.Domain.csproj" Id="a426ebc1-3bd4-4e11-ac2f-d5ce2b05088f" />
+  <Project Path="ABP_TestAssignment.Infrastructure/ABP_TestAssignment.Infrastructure.csproj" Id="94ef6133-a9d7-4361-99b0-72b7d3976e51" />
+  <Project Path="ABP_TestAssignment.Web/ABP_TestAssignment.Web.csproj" Id="d7493fdf-cff0-4936-ba31-bb296ac44483" />
+</Solution>
