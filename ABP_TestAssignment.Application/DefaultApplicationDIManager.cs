@@ -15,6 +15,7 @@ namespace ABP_TestAssignment.Application
             services.SetUpJobs();
 
             services.AddScoped<ICompanyBS, CompanyBS>();
+            services.AddScoped<IServiceBS, ServiceBS>();
             services.AddScoped<ITokenBS, TokenBS>();
 
             services.AddOptions<JwtSettings>()

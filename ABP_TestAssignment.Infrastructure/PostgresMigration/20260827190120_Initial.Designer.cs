@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ABP_TestAssignment.Infrastructure.PostgresMigration
 {
     [DbContext(typeof(EFDataContext))]
-    [Migration("20260827181613_Initial")]
+    [Migration("20260827190120_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -64,6 +64,29 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
                         .IsUnique();
 
                     b.ToTable("Company");
+                });
+
+            modelBuilder.Entity("ABP_TestAssignment.Domain.Entities.Services.Service", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("ID"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Service");
                 });
 
             modelBuilder.Entity("ABP_TestAssignment.Domain.Entities.Tokens.InvalidatedToken", b =>

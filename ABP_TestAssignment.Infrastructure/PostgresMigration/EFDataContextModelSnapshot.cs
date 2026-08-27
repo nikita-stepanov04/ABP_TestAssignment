@@ -63,6 +63,29 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
                     b.ToTable("Company");
                 });
 
+            modelBuilder.Entity("ABP_TestAssignment.Domain.Entities.Services.Service", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("ID"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Service");
+                });
+
             modelBuilder.Entity("ABP_TestAssignment.Domain.Entities.Tokens.InvalidatedToken", b =>
                 {
                     b.Property<long>("ID")

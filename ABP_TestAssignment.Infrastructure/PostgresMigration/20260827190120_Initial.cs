@@ -44,6 +44,20 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
                     table.PrimaryKey("PK_InvalidatedToken", x => x.ID);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Service",
+                columns: table => new
+                {
+                    ID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Service", x => x.ID);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Company_Email",
                 table: "Company",
@@ -54,6 +68,12 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
                 name: "IX_InvalidatedToken_TokenID",
                 table: "InvalidatedToken",
                 column: "TokenID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Service_Name",
+                table: "Service",
+                column: "Name",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -64,6 +84,9 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
 
             migrationBuilder.DropTable(
                 name: "InvalidatedToken");
+
+            migrationBuilder.DropTable(
+                name: "Service");
         }
     }
 }
