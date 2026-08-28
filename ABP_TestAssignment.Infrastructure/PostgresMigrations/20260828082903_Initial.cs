@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ABP_TestAssignment.Infrastructure.PostgresMigration
+namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -78,14 +78,14 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
                 columns: table => new
                 {
                     AvailableServicesID = table.Column<long>(type: "bigint", nullable: false),
-                    RoomsID = table.Column<long>(type: "bigint", nullable: false)
+                    RoomID = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoomService", x => new { x.AvailableServicesID, x.RoomsID });
+                    table.PrimaryKey("PK_RoomService", x => new { x.AvailableServicesID, x.RoomID });
                     table.ForeignKey(
-                        name: "FK_RoomService_Room_RoomsID",
-                        column: x => x.RoomsID,
+                        name: "FK_RoomService_Room_RoomID",
+                        column: x => x.RoomID,
                         principalTable: "Room",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -94,7 +94,7 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
                         column: x => x.AvailableServicesID,
                         principalTable: "Service",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -115,9 +115,9 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoomService_RoomsID",
+                name: "IX_RoomService_RoomID",
                 table: "RoomService",
-                column: "RoomsID");
+                column: "RoomID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Service_Name",

@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ABP_TestAssignment.Infrastructure.PostgresMigration
+namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
 {
     [DbContext(typeof(EFDataContext))]
     partial class EFDataContextModelSnapshot : ModelSnapshot
@@ -136,12 +136,12 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
                     b.Property<long>("AvailableServicesID")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("RoomsID")
+                    b.Property<long>("RoomID")
                         .HasColumnType("bigint");
 
-                    b.HasKey("AvailableServicesID", "RoomsID");
+                    b.HasKey("AvailableServicesID", "RoomID");
 
-                    b.HasIndex("RoomsID");
+                    b.HasIndex("RoomID");
 
                     b.ToTable("RoomService");
                 });
@@ -151,12 +151,12 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigration
                     b.HasOne("ABP_TestAssignment.Domain.Entities.Services.Service", null)
                         .WithMany()
                         .HasForeignKey("AvailableServicesID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ABP_TestAssignment.Domain.Entities.Rooms.Room", null)
                         .WithMany()
-                        .HasForeignKey("RoomsID")
+                        .HasForeignKey("RoomID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

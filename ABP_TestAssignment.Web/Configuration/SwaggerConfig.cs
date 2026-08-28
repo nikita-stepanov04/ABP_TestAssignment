@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi;
+﻿using ABP_TestAssignment.Web.Configuration;
+using Microsoft.OpenApi;
 
 namespace ABP_TestAssignment.Web
 {
@@ -24,6 +25,8 @@ namespace ABP_TestAssignment.Web
                 {
                     [new OpenApiSecuritySchemeReference("Bearer", doc)] = []
                 });
+
+                c.OperationFilter<AuthorizeCheckOperationFilter>();
             });
             return services;
         }
