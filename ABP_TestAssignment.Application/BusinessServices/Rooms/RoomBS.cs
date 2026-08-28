@@ -2,19 +2,25 @@
 using ABP_TestAssignment.Application.IBusinessServices.Rooms;
 using ABP_TestAssignment.Domain.Entities.Rooms;
 using ABP_TestAssignment.Infrastructure.IRepositories.Rooms;
+using ABP_TestAssignment.Infrastructure.IRepositories.Services;
 using AutoMapper;
 
 namespace ABP_TestAssignment.Application.BusinessServices.Rooms
 {
     public class RoomBS : IRoomBS
     {
-        private readonly IRoomRepository _roomRep;
         private readonly IMapper _mapper;
+        private readonly IRoomRepository _roomRep;
+        private readonly IServiceRepository _serviceRep;
 
-        public RoomBS(IRoomRepository roomRep, IMapper mapper)
+        public RoomBS(
+            IMapper mapper, 
+            IRoomRepository roomRep, 
+            IServiceRepository serviceRep)
         {
-            _roomRep = roomRep;
             _mapper = mapper;
+            _roomRep = roomRep;
+            _serviceRep = serviceRep;
         }
 
         public async Task<OpRes<long>> AddAsync(AddRoomDTO dto)
@@ -23,6 +29,16 @@ namespace ABP_TestAssignment.Application.BusinessServices.Rooms
                 return OpRes.Err<long>("Room with specified name already exists");
 
             var room = _mapper.Map<Room>(dto);
+
+            if (dto.AvailableServicesIDs?.Any() ?? false)
+            {
+                var services = await _serviceRep.GetAllAsync(dto.AvailableServicesIDs);
+
+                if (services.Count() != dto.AvailableServicesIDs.Count())
+                    return OpRes.Err<long>("Some of the services not found");
+
+                room.AvailableServices = services;
+            }
 
             await _roomRep.AddAsync(room);
             await _roomRep.SaveChangesAsync();
@@ -42,9 +58,9 @@ namespace ABP_TestAssignment.Application.BusinessServices.Rooms
             return OpRes.Success(true);
         }
 
-        public async Task<List<RoomDTO>> GetAllAsync()
+        public async Task<List<RoomDTO>> GetAllAsync(SearchForRoomDTO dto)
         {
-            var rooms = await _roomRep.GetAllRoomsAsync();
+            var rooms = await _roomRep.GetAllRoomsAsync(dto.Capacity, dto.StartTime, dto.EndTime);
             return _mapper.Map<List<RoomDTO>>(rooms);
         }
 

@@ -42,7 +42,7 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                     b.Property<decimal>("CalculatedTotalPrice")
                         .HasColumnType("numeric(10,2)");
 
-                    b.Property<long?>("CompanyID")
+                    b.Property<long>("CompanyID")
                         .HasColumnType("bigint");
 
                     b.Property<long>("RoomID")
@@ -202,10 +202,12 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                 {
                     b.HasOne("ABP_TestAssignment.Domain.Entities.Companies.Company", "Company")
                         .WithMany()
-                        .HasForeignKey("CompanyID");
+                        .HasForeignKey("CompanyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ABP_TestAssignment.Domain.Entities.Rooms.Room", "Room")
-                        .WithMany()
+                        .WithMany("Bookings")
                         .HasForeignKey("RoomID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -243,6 +245,11 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                         .HasForeignKey("RoomID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ABP_TestAssignment.Domain.Entities.Rooms.Room", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }

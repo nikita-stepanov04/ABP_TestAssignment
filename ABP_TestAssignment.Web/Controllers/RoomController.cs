@@ -29,10 +29,10 @@ namespace ABP_TestAssignment.Web.Controllers
         }
 
         [HttpGet("all")]
-        [ProducesResponseType<RoomDTO>(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAll()
+        [ProducesResponseType<List<RoomDTO>>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll([FromQuery] SearchForRoomDTO dto)
         {
-            return Ok(await _roomBS.GetAllAsync());
+            return Ok(await _roomBS.GetAllAsync(dto));
         }
 
         [HttpPost("add")]

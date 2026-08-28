@@ -16,8 +16,16 @@ namespace ABP_TestAssignment.Web.Controllers
             _bookingBS = bookingBS;
         }
 
+        [HttpGet("all")]
+        [Authorize(Policy = Policies.AuthorizedAny)]
+        [ProducesResponseType<List<BookingDTO>>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _bookingBS.GetAllBookingsForCompanyAsync(CompanyID));
+        }
+
         [HttpPost("add")]
-        [Authorize(Policy = Policies.AuthorizedAdmins)]
+        [Authorize(Policy = Policies.AuthorizedAny)]
         [ProducesResponseType<IDResponse>(StatusCodes.Status200OK)]
         [ProducesResponseType<MessageResponse>(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> BookRoom([FromBody] BookRoomDTO dto)

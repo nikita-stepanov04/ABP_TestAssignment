@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ABP_TestAssignment.Application.BusinessServices.Bookings;
+using System.ComponentModel.DataAnnotations;
 
 namespace ABP_TestAssignment.Application.DTOs.Bookings
 {    
@@ -17,8 +18,6 @@ namespace ABP_TestAssignment.Application.DTOs.Bookings
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            TimeSpan WorkingDayStart = TimeSpan.FromHours(6);
-            TimeSpan WorkingDayEnd = TimeSpan.FromHours(23);
 
             if (RoomID <= 0)
                 yield return new ValidationResult(
@@ -54,17 +53,17 @@ namespace ABP_TestAssignment.Application.DTOs.Bookings
                 yield break;
             }
 
-            if (StartTime.TimeOfDay < WorkingDayStart || StartTime.TimeOfDay >= WorkingDayEnd)
+            if (StartTime.TimeOfDay < BusinessHours.WorkingDayStart || StartTime.TimeOfDay >= BusinessHours.WorkingDayEnd)
             {
                 yield return new ValidationResult(
-                    $"Booking start must be between {WorkingDayStart:hh\\:mm} and {WorkingDayEnd:hh\\:mm}",
+                    $"Booking start must be between {BusinessHours.WorkingDayStart:hh\\:mm} and {BusinessHours.WorkingDayEnd:hh\\:mm}",
                     new[] { nameof(StartTime) });
             }
 
-            if (EndTime.TimeOfDay <= WorkingDayStart || EndTime.TimeOfDay > WorkingDayEnd)
+            if (EndTime.TimeOfDay <= BusinessHours.WorkingDayStart || EndTime.TimeOfDay > BusinessHours.WorkingDayEnd)
             {
                 yield return new ValidationResult(
-                    $"Booking end must be between {WorkingDayStart:hh\\:mm} and {WorkingDayEnd:hh\\:mm}",
+                    $"Booking end must be between {BusinessHours.WorkingDayStart:hh\\:mm} and {BusinessHours.WorkingDayEnd:hh\\:mm}",
                     new[] { nameof(EndTime) });
             }
         }

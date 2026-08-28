@@ -7,13 +7,28 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories.Rooms
 {
     public class EFRoomRepository : EFRepositoryBase<Room>, IRoomRepository
     {
-        public EFRoomRepository(EFDataContext context) 
+        public EFRoomRepository(EFDataContext context)
             : base(context) { }
 
-        public Task<List<Room>> GetAllRoomsAsync()
+        public Task<List<Room>> GetAllRoomsAsync(
+            int? capacity = null,
+            DateTime? startTime = null,
+            DateTime? endTime = null)
         {
-            return DbSet
+            var query = DbSet
                 .Include(r => r.AvailableServices)
+                .AsQueryable();
+
+            if (capacity.HasValue)
+                query = query.Where(r => r.Capacity >= capacity.Value);
+
+            if (startTime.HasValue && endTime.HasValue)
+                query = query.Where(r =>
+                    !r.Bookings.Any(b =>
+                        (startTime.Value < b.BookingEndTime) &&
+                        (endTime.Value > b.BookingStartTime)));
+
+            return query.AsNoTracking()
                 .ToListAsync();
         }
 
@@ -67,7 +82,7 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories.Rooms
         {
             var query = DbSet.AsQueryable();
 
-            if (excludeID != null) 
+            if (excludeID != null)
                 query = query.Where(r => r.ID != excludeID);
 
             return query.AnyAsync(r => EF.Functions.ILike(r.Name, name));
@@ -79,6 +94,16 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories.Rooms
                 .FromSqlInterpolated($@"SELECT * FROM ""Room"" WHERE ""ID"" = {roomID} FOR UPDATE")
                 .Include(r => r.AvailableServices)
                 .SingleOrDefaultAsync();
+        }
+
+        public Task<List<Room>> GetByIdsAsync(
+            List<long> roomIDs,
+            CancellationToken cancellationToken = default)
+        {
+            return DbSet
+                .Where(r => roomIDs.Contains(r.ID))
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
         }
     }
 }

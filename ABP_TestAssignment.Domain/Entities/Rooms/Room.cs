@@ -1,4 +1,5 @@
-﻿using ABP_TestAssignment.Domain.Entities.Services;
+﻿using ABP_TestAssignment.Domain.Entities.Bookings;
+using ABP_TestAssignment.Domain.Entities.Services;
 
 namespace ABP_TestAssignment.Domain.Entities.Rooms
 {
@@ -8,5 +9,6 @@ namespace ABP_TestAssignment.Domain.Entities.Rooms
         public int Capacity { get; set; }
         public decimal BasePricePerHour { get; set; }
         public List<Service> AvailableServices { get; set; } = [];
+        public List<Booking> Bookings { get; set; } = [];
     }
 }

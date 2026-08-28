@@ -17,6 +17,8 @@ namespace ABP_TestAssignment.Application.AutoMapper.Profiles
                     dest => dest.BookingEndTime,
                     opt => opt.MapFrom(src => src.EndTime)
                 );
+
+            CreateMap<Booking, BookingDTO>();
         }
     }
 }

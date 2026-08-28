@@ -1,10 +1,12 @@
 ﻿using ABP_TestAssignment.Application.BusinessServices.Bookings;
 using ABP_TestAssignment.Application.BusinessServices.Companies;
+using ABP_TestAssignment.Application.BusinessServices.Reports;
 using ABP_TestAssignment.Application.BusinessServices.Rooms;
 using ABP_TestAssignment.Application.BusinessServices.Services;
 using ABP_TestAssignment.Application.BusinessServices.Tokens;
 using ABP_TestAssignment.Application.IBusinessServices.Bookings;
 using ABP_TestAssignment.Application.IBusinessServices.Companies;
+using ABP_TestAssignment.Application.IBusinessServices.Reports;
 using ABP_TestAssignment.Application.IBusinessServices.Rooms;
 using ABP_TestAssignment.Application.IBusinessServices.Services;
 using ABP_TestAssignment.Application.IBusinessServices.Tokens;
@@ -27,6 +29,7 @@ namespace ABP_TestAssignment.Application
             services.AddScoped<IBookingBS, BookingBS>();
             services.AddScoped<ICompanyBS, CompanyBS>();
             services.AddScoped<IServiceBS, ServiceBS>();
+            services.AddScoped<IOccupancyReportBS, OccupancyReportBS>();
 
             var bookingPricingDIManager = new BookingPriceRuleDIManager();
             bookingPricingDIManager.SetupDI(services, config);

@@ -6,5 +6,6 @@ namespace ABP_TestAssignment.Application.IBusinessServices.Bookings
     public interface IBookingBS
     {
         Task<OpRes<PriceCalculationDTO>> BookRoomAsync(BookRoomDTO dto, long companyID);
+        Task<List<BookingDTO>> GetAllBookingsForCompanyAsync(long companyID);
     }
 }

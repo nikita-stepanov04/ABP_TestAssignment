@@ -11,6 +11,7 @@ namespace ABP_TestAssignment.Domain.Entities.Bookings
         public DateTime BookingEndTime { get; set; }
         public decimal CalculatedTotalPrice { get; set; }
 
+        public long CompanyID { get; set; }
         public Company? Company { get; set; }
 
         public long RoomID { get; set; }

@@ -44,7 +44,7 @@ namespace ABP_TestAssignment.Application.BusinessServices.Bookings
             await using var transaction = await _roomRep.BeginTransactionAsync();
             try
             {
-                // Check room
+                // Check room if it exists and set up the block by room id to serialize the concurrent bookings
                 var room = await _roomRep.GetByIDForUpdateAsync(dto.RoomID);
                 if (room is null)
                 {
@@ -97,6 +97,12 @@ namespace ABP_TestAssignment.Application.BusinessServices.Bookings
                 await transaction.RollbackAsync();
                 throw;
             }
+        }
+
+        public async Task<List<BookingDTO>> GetAllBookingsForCompanyAsync(long companyID)
+        {
+            var bookings = await _bookingRep.GetAllBookingsForCompanyAsync(companyID);
+            return _mapper.Map<List<BookingDTO>>(bookings);
         }
     }
 }

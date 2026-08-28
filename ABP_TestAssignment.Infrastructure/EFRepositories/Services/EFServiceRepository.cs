@@ -9,9 +9,15 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories.Services
         public EFServiceRepository(EFDataContext context) 
             : base(context) { }
 
-        public Task<List<Service>> GetAllAsync()
+        public Task<List<Service>> GetAllAsync(List<long>? ids = null)
         {
-            return DbSet.ToListAsync();
+            var query = DbSet.AsQueryable();
+
+            if (ids != null)
+                query = query.Where(s => ids.Contains(s.ID));
+
+            return query.AsNoTracking()
+                .ToListAsync();
         }
 
         public Task<bool> ServiceExistsAsync(string name)

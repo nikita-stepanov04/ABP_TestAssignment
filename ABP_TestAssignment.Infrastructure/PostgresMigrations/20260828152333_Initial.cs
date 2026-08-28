@@ -83,7 +83,7 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                     BookingStartTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     BookingEndTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     CalculatedTotalPrice = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
-                    CompanyID = table.Column<long>(type: "bigint", nullable: true),
+                    CompanyID = table.Column<long>(type: "bigint", nullable: false),
                     RoomID = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -93,7 +93,8 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                         name: "FK_Booking_Company_CompanyID",
                         column: x => x.CompanyID,
                         principalTable: "Company",
-                        principalColumn: "ID");
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Booking_Room_RoomID",
                         column: x => x.RoomID,
