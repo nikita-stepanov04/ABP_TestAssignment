@@ -1,8 +1,10 @@
 ﻿using ABP_TestAssignment.Domain.DI;
+using ABP_TestAssignment.Infrastructure.EFRepositories.Bookings;
 using ABP_TestAssignment.Infrastructure.EFRepositories.Companies;
 using ABP_TestAssignment.Infrastructure.EFRepositories.Rooms;
 using ABP_TestAssignment.Infrastructure.EFRepositories.Services;
 using ABP_TestAssignment.Infrastructure.EFRepository;
+using ABP_TestAssignment.Infrastructure.IRepositories.Bookings;
 using ABP_TestAssignment.Infrastructure.IRepositories.Companies;
 using ABP_TestAssignment.Infrastructure.IRepositories.Rooms;
 using ABP_TestAssignment.Infrastructure.IRepositories.Services;
@@ -31,9 +33,10 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories
                 #endif
             });
 
+            services.AddScoped<IRoomRepository, EFRoomRepository>();
+            services.AddScoped<IBookingRepository, EFBookingRepository>();
             services.AddScoped<ICompanyRepository, EFCompanyRepository>();
             services.AddScoped<IServiceRepository, EFServiceRepository>();
-            services.AddScoped<IRoomRepository, EFRoomRepository>();
             services.AddScoped<IInvalidatedTokenRepository, EFInvalidatedTokenRepository>();
 
             return services;

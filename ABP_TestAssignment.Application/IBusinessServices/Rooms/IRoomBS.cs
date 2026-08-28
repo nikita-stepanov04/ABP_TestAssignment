@@ -1,6 +1,6 @@
 ﻿using ABP_TestAssignment.Application.DTOs.Rooms;
 
-namespace ABP_TestAssignment.Application.IBusinessServices
+namespace ABP_TestAssignment.Application.IBusinessServices.Rooms
 {
     public interface IRoomBS
     {

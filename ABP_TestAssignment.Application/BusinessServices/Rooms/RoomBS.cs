@@ -1,10 +1,10 @@
 ﻿using ABP_TestAssignment.Application.DTOs.Rooms;
-using ABP_TestAssignment.Application.IBusinessServices;
+using ABP_TestAssignment.Application.IBusinessServices.Rooms;
 using ABP_TestAssignment.Domain.Entities.Rooms;
 using ABP_TestAssignment.Infrastructure.IRepositories.Rooms;
 using AutoMapper;
 
-namespace ABP_TestAssignment.Application.BusinessServices
+namespace ABP_TestAssignment.Application.BusinessServices.Rooms
 {
     public class RoomBS : IRoomBS
     {

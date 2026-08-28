@@ -1,6 +1,7 @@
 ﻿using ABP_TestAssignment.Domain.Entities;
 using ABP_TestAssignment.Infrastructure.IRepositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ABP_TestAssignment.Infrastructure.EFRepositories
 {
@@ -39,6 +40,11 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories
         public virtual void Update(TEntity entity)
         {
             DbSet.Update(entity);
+        }
+
+        public Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return DbContext.Database.BeginTransactionAsync();
         }
     }
 }

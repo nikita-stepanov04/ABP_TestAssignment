@@ -72,5 +72,13 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories.Rooms
 
             return query.AnyAsync(r => EF.Functions.ILike(r.Name, name));
         }
+
+        public Task<Room?> GetByIDForUpdateAsync(long roomID)
+        {
+            return DbSet
+                .FromSqlInterpolated($@"SELECT * FROM ""Room"" WHERE ""ID"" = {roomID} FOR UPDATE")
+                .Include(r => r.AvailableServices)
+                .SingleOrDefaultAsync();
+        }
     }
 }

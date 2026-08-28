@@ -7,5 +7,6 @@ namespace ABP_TestAssignment.Infrastructure.IRepositories.Rooms
         Task<List<Room>> GetAllRoomsAsync();
         Task UpdateAvailableServices(long roomId, List<long> serviceIDs);
         Task<bool> RoomExistsAsync(string name, long? excludeID = null);
+        Task<Room?> GetByIDForUpdateAsync(long roomID);
     }
 }

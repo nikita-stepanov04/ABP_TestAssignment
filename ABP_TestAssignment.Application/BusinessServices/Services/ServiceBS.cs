@@ -1,10 +1,10 @@
 ﻿using ABP_TestAssignment.Application.DTOs.Services;
-using ABP_TestAssignment.Application.IBusinessServices;
+using ABP_TestAssignment.Application.IBusinessServices.Services;
 using ABP_TestAssignment.Domain.Entities.Services;
 using ABP_TestAssignment.Infrastructure.IRepositories.Services;
 using AutoMapper;
 
-namespace ABP_TestAssignment.Application.BusinessServices
+namespace ABP_TestAssignment.Application.BusinessServices.Services
 {
     public class ServiceBS : IServiceBS
     {

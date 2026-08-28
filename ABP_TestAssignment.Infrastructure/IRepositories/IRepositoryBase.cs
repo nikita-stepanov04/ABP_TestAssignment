@@ -1,4 +1,5 @@
 ﻿using ABP_TestAssignment.Domain.Entities;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ABP_TestAssignment.Infrastructure.IRepositories
 {
@@ -9,5 +10,6 @@ namespace ABP_TestAssignment.Infrastructure.IRepositories
         void Delete(TEntity entity);
         void Update(TEntity entity);
         Task SaveChangesAsync();
+        Task<IDbContextTransaction> BeginTransactionAsync();
     }
 }

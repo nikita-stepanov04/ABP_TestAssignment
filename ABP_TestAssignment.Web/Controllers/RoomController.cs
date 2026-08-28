@@ -1,5 +1,5 @@
 ﻿using ABP_TestAssignment.Application.DTOs.Rooms;
-using ABP_TestAssignment.Application.IBusinessServices;
+using ABP_TestAssignment.Application.IBusinessServices.Rooms;
 using ABP_TestAssignment.Web.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

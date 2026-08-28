@@ -16,7 +16,7 @@ namespace ABP_TestAssignment.Web.Controllers
             return header.Substring("Bearer ".Length).Trim();
         }
 
-        public Guid CompanyID => Guid.Parse(User.FindFirst(JwtClaimType.CompanyID)!.Value);
+        public long CompanyID => long.Parse(User.FindFirst(JwtClaimType.CompanyID)!.Value);
         public string CompanyEmail => User.FindFirst(JwtClaimType.Email)!.Value;
     }
 }

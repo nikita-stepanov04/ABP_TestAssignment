@@ -3,7 +3,7 @@ using ABP_TestAssignment.Domain.Entities.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace ABP_TestAssignment.Application.IBusinessServices
+namespace ABP_TestAssignment.Application.IBusinessServices.Tokens
 {
     public interface ITokenBS
     {

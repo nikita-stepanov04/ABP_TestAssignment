@@ -1,6 +1,6 @@
 ﻿using ABP_TestAssignment.Application;
 using ABP_TestAssignment.Application.Cryptography;
-using ABP_TestAssignment.Application.IBusinessServices;
+using ABP_TestAssignment.Application.IBusinessServices.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Caching.Memory;
 using System.IdentityModel.Tokens.Jwt;

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
 {
     [DbContext(typeof(EFDataContext))]
-    [Migration("20260828082903_Initial")]
+    [Migration("20260828124624_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,6 +24,43 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ABP_TestAssignment.Domain.Entities.Bookings.Booking", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("ID"));
+
+                    b.Property<DateTime>("BookingDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("BookingEndTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("BookingStartTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("CalculatedTotalPrice")
+                        .HasColumnType("numeric(10,2)");
+
+                    b.Property<long?>("CompanyID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("RoomID")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BookingStartTime");
+
+                    b.HasIndex("CompanyID");
+
+                    b.HasIndex("RoomID");
+
+                    b.ToTable("Booking");
+                });
 
             modelBuilder.Entity("ABP_TestAssignment.Domain.Entities.Companies.Company", b =>
                 {
@@ -72,7 +109,7 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("ID"));
 
                     b.Property<decimal>("BasePricePerHour")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric(10,2)");
 
                     b.Property<int>("Capacity")
                         .HasColumnType("integer");
@@ -102,7 +139,7 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric(10,2)");
 
                     b.HasKey("ID");
 
@@ -134,6 +171,21 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                     b.ToTable("InvalidatedToken");
                 });
 
+            modelBuilder.Entity("BookingService", b =>
+                {
+                    b.Property<long>("BookingID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ServicesID")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("BookingID", "ServicesID");
+
+                    b.HasIndex("ServicesID");
+
+                    b.ToTable("BookingService");
+                });
+
             modelBuilder.Entity("RoomService", b =>
                 {
                     b.Property<long>("AvailableServicesID")
@@ -147,6 +199,38 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                     b.HasIndex("RoomID");
 
                     b.ToTable("RoomService");
+                });
+
+            modelBuilder.Entity("ABP_TestAssignment.Domain.Entities.Bookings.Booking", b =>
+                {
+                    b.HasOne("ABP_TestAssignment.Domain.Entities.Companies.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyID");
+
+                    b.HasOne("ABP_TestAssignment.Domain.Entities.Rooms.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("BookingService", b =>
+                {
+                    b.HasOne("ABP_TestAssignment.Domain.Entities.Bookings.Booking", null)
+                        .WithMany()
+                        .HasForeignKey("BookingID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ABP_TestAssignment.Domain.Entities.Services.Service", null)
+                        .WithMany()
+                        .HasForeignKey("ServicesID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RoomService", b =>

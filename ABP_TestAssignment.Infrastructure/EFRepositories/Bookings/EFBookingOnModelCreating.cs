@@ -1,32 +1,29 @@
-﻿using ABP_TestAssignment.Domain.Entities.Rooms;
+﻿using ABP_TestAssignment.Domain.Entities.Bookings;
 using ABP_TestAssignment.Domain.Entities.Services;
 using ABP_TestAssignment.Infrastructure.EFRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ABP_TestAssignment.Infrastructure.EFRepositories.Services
+namespace ABP_TestAssignment.Infrastructure.EFRepositories.Companies
 {
-    public class EFRoomOnModelCreating : EFOnModelCreatingBase<Room>
+    public class EFBookingOnModelCreating : EFOnModelCreatingBase<Booking>
     {
-        protected override void OnModelCreating(EntityTypeBuilder<Room> model)
+        protected override void OnModelCreating(EntityTypeBuilder<Booking> model)
         {
-            model.Property(e => e.Name)
-                .HasColumnType("varchar(50)");
+            model.HasIndex(e => e.BookingStartTime);
+            model.Property(e => e.BookingEndTime);
 
-            model.HasIndex(e => e.Name)
-                .IsUnique();
-
-            model.Property(r => r.BasePricePerHour)
+            model.Property(r => r.CalculatedTotalPrice)
                 .HasColumnType("numeric(10,2)");
 
-            model.HasMany(r => r.AvailableServices)
+            model.HasMany(b => b.Services)
                 .WithMany()
                 .UsingEntity<Dictionary<string, object>>(
-                    "RoomService",
+                    "BookingService",
                     j => j.HasOne<Service>()
                           .WithMany()
                           .OnDelete(DeleteBehavior.Restrict),
-                    j => j.HasOne<Room>()
+                    j => j.HasOne<Booking>()
                           .WithMany()
                           .OnDelete(DeleteBehavior.Cascade)
                 );

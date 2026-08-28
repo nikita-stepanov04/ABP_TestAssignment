@@ -1,6 +1,6 @@
 ﻿using ABP_TestAssignment.Application.DTOs.Services;
 
-namespace ABP_TestAssignment.Application.IBusinessServices
+namespace ABP_TestAssignment.Application.IBusinessServices.Services
 {
     public interface IServiceBS
     {

@@ -52,7 +52,7 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "varchar(50)", nullable: false),
                     Capacity = table.Column<int>(type: "integer", nullable: false),
-                    BasePricePerHour = table.Column<decimal>(type: "numeric", nullable: false)
+                    BasePricePerHour = table.Column<decimal>(type: "numeric(10,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,11 +66,40 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                     ID = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "varchar(50)", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false)
+                    Price = table.Column<decimal>(type: "numeric(10,2)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Service", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Booking",
+                columns: table => new
+                {
+                    ID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BookingDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    BookingStartTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    BookingEndTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CalculatedTotalPrice = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
+                    CompanyID = table.Column<long>(type: "bigint", nullable: true),
+                    RoomID = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Booking", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Booking_Company_CompanyID",
+                        column: x => x.CompanyID,
+                        principalTable: "Company",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_Booking_Room_RoomID",
+                        column: x => x.RoomID,
+                        principalTable: "Room",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,6 +125,50 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "BookingService",
+                columns: table => new
+                {
+                    BookingID = table.Column<long>(type: "bigint", nullable: false),
+                    ServicesID = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookingService", x => new { x.BookingID, x.ServicesID });
+                    table.ForeignKey(
+                        name: "FK_BookingService_Booking_BookingID",
+                        column: x => x.BookingID,
+                        principalTable: "Booking",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BookingService_Service_ServicesID",
+                        column: x => x.ServicesID,
+                        principalTable: "Service",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Booking_BookingStartTime",
+                table: "Booking",
+                column: "BookingStartTime");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Booking_CompanyID",
+                table: "Booking",
+                column: "CompanyID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Booking_RoomID",
+                table: "Booking",
+                column: "RoomID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookingService_ServicesID",
+                table: "BookingService",
+                column: "ServicesID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Company_Email",
@@ -130,7 +203,7 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Company");
+                name: "BookingService");
 
             migrationBuilder.DropTable(
                 name: "InvalidatedToken");
@@ -139,10 +212,16 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                 name: "RoomService");
 
             migrationBuilder.DropTable(
-                name: "Room");
+                name: "Booking");
 
             migrationBuilder.DropTable(
                 name: "Service");
+
+            migrationBuilder.DropTable(
+                name: "Company");
+
+            migrationBuilder.DropTable(
+                name: "Room");
         }
     }
 }

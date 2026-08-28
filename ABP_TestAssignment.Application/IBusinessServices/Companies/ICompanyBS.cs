@@ -1,6 +1,6 @@
 ﻿using ABP_TestAssignment.Application.DTOs.Companies;
 
-namespace ABP_TestAssignment.Application.IBusinessServices
+namespace ABP_TestAssignment.Application.IBusinessServices.Companies
 {
     public interface ICompanyBS
     {

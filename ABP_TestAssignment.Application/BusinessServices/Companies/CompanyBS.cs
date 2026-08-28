@@ -1,12 +1,12 @@
 ﻿using ABP_TestAssignment.Application.Cryptography;
 using ABP_TestAssignment.Application.DTOs.Companies;
-using ABP_TestAssignment.Application.IBusinessServices;
+using ABP_TestAssignment.Application.IBusinessServices.Companies;
 using ABP_TestAssignment.Domain.Entities.Companies;
 using ABP_TestAssignment.Infrastructure.IRepositories.Companies;
 using AutoMapper;
 using Microsoft.Extensions.Options;
 
-namespace ABP_TestAssignment.Application.BusinessServices
+namespace ABP_TestAssignment.Application.BusinessServices.Companies
 {
     public class CompanyBS : ICompanyBS
     {

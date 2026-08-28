@@ -1,6 +1,7 @@
 ﻿using ABP_TestAssignment.Application.Cryptography;
 using ABP_TestAssignment.Application.DTOs.Companies;
-using ABP_TestAssignment.Application.IBusinessServices;
+using ABP_TestAssignment.Application.IBusinessServices.Companies;
+using ABP_TestAssignment.Application.IBusinessServices.Tokens;
 using ABP_TestAssignment.Web.Identity;
 using ABP_TestAssignment.Web.Models;
 using Microsoft.AspNetCore.Authorization;

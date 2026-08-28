@@ -1,5 +1,5 @@
 ﻿using ABP_TestAssignment.Application.DTOs.Services;
-using ABP_TestAssignment.Application.IBusinessServices;
+using ABP_TestAssignment.Application.IBusinessServices.Services;
 using ABP_TestAssignment.Web.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

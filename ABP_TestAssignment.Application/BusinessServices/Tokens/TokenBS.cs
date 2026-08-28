@@ -1,6 +1,6 @@
 ﻿using ABP_TestAssignment.Application.Cryptography;
 using ABP_TestAssignment.Application.DTOs.Companies;
-using ABP_TestAssignment.Application.IBusinessServices;
+using ABP_TestAssignment.Application.IBusinessServices.Tokens;
 using ABP_TestAssignment.Domain.Entities.Tokens;
 using ABP_TestAssignment.Infrastructure.IRepositories.Tokens;
 using Microsoft.Extensions.Options;
@@ -9,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace ABP_TestAssignment.Application.BusinessServices
+namespace ABP_TestAssignment.Application.BusinessServices.Tokens
 {
     public class TokenBS : ITokenBS
     {
