@@ -1,0 +1,20 @@
+﻿services:
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: ABP_TestAssignment.Web/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  db:
+    container_name: db
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=ABP_TestAssignmentDB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+    ports:
+      - "5432:5432"
