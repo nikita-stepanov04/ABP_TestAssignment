@@ -29,14 +29,19 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories.Bookings
         }
 
         public Task<List<Booking>> GetByPeriodAsync(
-           List<long> roomIDs,
+           List<long>? roomIDs,
            DateTime periodStart,
            DateTime periodEnd,
            CancellationToken cancellationToken = default)
         {
-            return DbSet
-                .Where(b => roomIDs.Contains(b.RoomID))
-                .Where(b => b.BookingStartTime < periodEnd && b.BookingEndTime > periodStart)
+            var query = DbSet
+                .Include(b => b.Services)
+                .AsQueryable();
+
+            if (roomIDs != null && roomIDs.Any())
+                query = query.Where(b => roomIDs.Contains(b.RoomID));
+
+            return query.Where(b => b.BookingStartTime < periodEnd && b.BookingEndTime > periodStart)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
         }

@@ -8,7 +8,7 @@ using ABP_TestAssignment.Infrastructure.IRepositories.Rooms;
 
 namespace ABP_TestAssignment.Application.BusinessServices.Reports
 {
-    public class OccupancyReportBS : IOccupancyReportBS
+    public class OccupancyReportBS : ReportBaseBS, IOccupancyReportBS
     {
         private readonly IBookingRepository _bookingRepository;
         private readonly IRoomRepository _roomRepository;
@@ -120,12 +120,6 @@ namespace ABP_TestAssignment.Application.BusinessServices.Reports
                 LeastBusyRoomName = leastBusy?.RoomName,
                 LeastBusyRoomOccupancyPercentage = leastBusy?.OccupancyPercentage ?? 0
             };
-        }
-
-        private static IEnumerable<DateOnly> EnumerateDays(DateOnly periodStart, DateOnly periodEnd)
-        {
-            for (var day = periodStart; day <= periodEnd; day = day.AddDays(1))
-                yield return day;
         }
     }
 }

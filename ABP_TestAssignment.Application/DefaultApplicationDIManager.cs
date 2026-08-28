@@ -29,7 +29,9 @@ namespace ABP_TestAssignment.Application
             services.AddScoped<IBookingBS, BookingBS>();
             services.AddScoped<ICompanyBS, CompanyBS>();
             services.AddScoped<IServiceBS, ServiceBS>();
+
             services.AddScoped<IOccupancyReportBS, OccupancyReportBS>();
+            services.AddScoped<IRevenueReportBS, RevenueReportBS>();
 
             var bookingPricingDIManager = new BookingPriceRuleDIManager();
             bookingPricingDIManager.SetupDI(services, config);
