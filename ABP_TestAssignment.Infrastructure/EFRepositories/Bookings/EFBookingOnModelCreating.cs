@@ -14,7 +14,7 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories.Companies
             model.Property(e => e.BookingEndTime);
 
             model.Property(r => r.CalculatedTotalPrice)
-                .HasColumnType("numeric(10,2)");
+                .HasColumnType("numeric(12,2)");
 
             model.HasMany(b => b.Services)
                 .WithMany()

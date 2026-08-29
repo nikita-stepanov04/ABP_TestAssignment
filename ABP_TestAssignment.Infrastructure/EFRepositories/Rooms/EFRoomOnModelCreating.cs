@@ -17,7 +17,7 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories.Services
                 .IsUnique();
 
             model.Property(r => r.BasePricePerHour)
-                .HasColumnType("numeric(10,2)");
+                .HasColumnType("numeric(12,2)");
 
             model.HasMany(r => r.AvailableServices)
                 .WithMany()

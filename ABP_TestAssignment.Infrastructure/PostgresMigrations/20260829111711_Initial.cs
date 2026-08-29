@@ -52,7 +52,7 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "varchar(50)", nullable: false),
                     Capacity = table.Column<int>(type: "integer", nullable: false),
-                    BasePricePerHour = table.Column<decimal>(type: "numeric(10,2)", nullable: false)
+                    BasePricePerHour = table.Column<decimal>(type: "numeric(12,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,7 +66,7 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                     ID = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "varchar(50)", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric(10,2)", nullable: false)
+                    Price = table.Column<decimal>(type: "numeric(12,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,7 +82,7 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                     BookingDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     BookingStartTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     BookingEndTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CalculatedTotalPrice = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
+                    CalculatedTotalPrice = table.Column<decimal>(type: "numeric(12,2)", nullable: false),
                     CompanyID = table.Column<long>(type: "bigint", nullable: false),
                     RoomID = table.Column<long>(type: "bigint", nullable: false)
                 },

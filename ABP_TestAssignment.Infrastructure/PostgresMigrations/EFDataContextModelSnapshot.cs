@@ -40,7 +40,7 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("CalculatedTotalPrice")
-                        .HasColumnType("numeric(10,2)");
+                        .HasColumnType("numeric(12,2)");
 
                     b.Property<long>("CompanyID")
                         .HasColumnType("bigint");
@@ -106,7 +106,7 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("ID"));
 
                     b.Property<decimal>("BasePricePerHour")
-                        .HasColumnType("numeric(10,2)");
+                        .HasColumnType("numeric(12,2)");
 
                     b.Property<int>("Capacity")
                         .HasColumnType("integer");
@@ -136,7 +136,7 @@ namespace ABP_TestAssignment.Infrastructure.PostgresMigrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric(10,2)");
+                        .HasColumnType("numeric(12,2)");
 
                     b.HasKey("ID");
 

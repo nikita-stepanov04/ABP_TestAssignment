@@ -13,7 +13,7 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories.Services
                 .HasColumnType("varchar(50)");
 
             model.Property(r => r.Price)
-                .HasColumnType("numeric(10,2)");
+                .HasColumnType("numeric(12,2)");
 
             model.HasIndex(e => e.Name)
                 .IsUnique();
