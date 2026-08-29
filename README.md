@@ -7,6 +7,9 @@
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![Azure](https://img.shields.io/badge/Microsoft%20Azure-0078D4?style=for-the-badge&logo=microsoft-azure&logoColor=white)
 
+[![Deploy app](https://github.com/nikita-stepanov04/ABP_TestAssignment/actions/workflows/deploy.yml/badge.svg)](https://github.com/nikita-stepanov04/ABP_TestAssignment/actions/workflows/deploy.yml)
+[![Release](https://img.shields.io/github/v/release/nikita-stepanov04/ABP_TestAssignment)](https://github.com/nikita-stepanov04/ABP_TestAssignment/releases)
+
 ## Usage
 
 1. **Access the Website**
