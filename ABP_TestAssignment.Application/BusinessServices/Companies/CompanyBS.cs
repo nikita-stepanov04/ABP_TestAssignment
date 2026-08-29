@@ -52,6 +52,7 @@ namespace ABP_TestAssignment.Application.BusinessServices.Companies
         public async Task<OpRes<long>> RegisterCompanyAsync(CompanyRegistrationDTO companyDTO)
         {
             var company = _mapper.Map<Company>(companyDTO);
+            company.Email = company.Email.ToLower();
 
             if (!await IsEmailNotTakenAsync(company.Email))
             {

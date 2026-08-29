@@ -6,12 +6,12 @@ namespace ABP_TestAssignment.Infrastructure.EFRepositories.Companies
 {
     internal class EFCompanyRepository : EFRepositoryBase<Company>, ICompanyRepository
     {
-        public EFCompanyRepository(EFDataContext context) 
+        public EFCompanyRepository(EFDataContext context)
             : base(context) { }
 
         public Task<Company?> GetByEmailAsync(string email)
         {
-            return DbSet.FirstOrDefaultAsync(u => u.Email == email);
+            return DbSet.FirstOrDefaultAsync(u => EF.Functions.ILike(u.Email, email));
         }
     }
 }

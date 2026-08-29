@@ -15,7 +15,7 @@
 
         You can also test the deployed application on Azure by visiting the following link:
 
-        - **Azure**: <>
+        - **Azure**: <http://abp-test-assignment-atghhjd7hvbsaycm.canadacentral-01.azurewebsites.net>
         
     - **Local Environment**
 

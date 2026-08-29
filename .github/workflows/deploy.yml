@@ -1,0 +1,94 @@
+﻿name: Deploy app
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  IMAGE_NAME: abp-test-assignment
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Azure Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io
+          username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
+          password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./ABP_TestAssignment.Web/Dockerfile
+          push: true
+          tags: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+          labels: |
+            version=${{ github.ref_name }}
+
+      - name: Log in to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Update Web App to new image tag
+        uses: azure/CLI@v2
+        with:
+          inlineScript: |
+            az webapp config container set \
+              --name ${{ secrets.AZURE_WEBAPP_NAME }} \
+              --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+              --container-image-name ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.ref_name }} \
+              --container-registry-url https://${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io \
+              --container-registry-user ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }} \
+              --container-registry-password ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+
+      - name: Set Web App configuration
+        uses: azure/CLI@v2
+        with:
+          inlineScript: |
+            az webapp config appsettings set \
+              --name ${{ secrets.AZURE_WEBAPP_NAME }} \
+              --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+              --settings \
+                ConnectionStrings__DbConnection="${{ secrets.DB_CONNECTION_STRING }}" \
+                Admins__AdminMasterPassword="${{ secrets.ADMIN_MASTER_PASSWORD }}" \
+                Jwt__AccessTokenKey="${{ secrets.JWT_ACCESS_TOKEN_KEY }}" \
+                Jwt__RefreshTokenKey="${{ secrets.JWT_REFRESH_TOKEN_KEY }}" \
+                Jwt__AccessTokenExpirationMinutes="${{ secrets.JWT_ACCESS_TOKEN_EXPIRATION_MINUTES }}" \
+                Jwt__RefreshTokenExpirationDays="${{ secrets.JWT_REFRESH_TOKEN_EXPIRATION_DAYS }}"
+
+      - name: Restart Web App
+        uses: azure/CLI@v2
+        with:
+          inlineScript: |
+            az webapp restart \
+              --name ${{ secrets.AZURE_WEBAPP_NAME }} \
+              --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: |
+            Docker image pushed to Azure Container Registry:
+
+            ```
+            docker pull ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+            ```
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
